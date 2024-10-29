@@ -5,9 +5,9 @@ $padding: 20px;
 //主体
 body {
   height: 100%;
-  width:100%;
-  margin:0;
-  padding:0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
   overflow-x: hidden;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
@@ -67,7 +67,6 @@ div:focus {
 }
 
 
-
 .clearfix {
   &:after {
     visibility: hidden;
@@ -87,6 +86,7 @@ div:focus {
     height: 500px;
     background: url(../assets/img/bj-4.jpg) no-repeat center $whiteColor;
   }
+
   .about {
     width: 500px;
     background-color: $whiteColor;
@@ -94,14 +94,28 @@ div:focus {
     position: relative;
     left: 50%;
     transform: translate(-50%, -70%);
-    box-shadow: 0 3px 21px 2px rgba(0,0,0,.3);
+    box-shadow: 0 3px 21px 2px rgba(0, 0, 0, .3);
     border-radius: 10px;
     text-align: center;
-    &>h3 {
+
+    & > h3 {
       margin: $padding 0;
     }
-    &>.demo-ruleForm {
+
+    & > .demo-ruleForm {
       text-align: center;
+
+      & > .el-form-item {
+        //background-color: black;
+        //&>.el-form-item__content{
+        //  margin-left: 10px !important;
+        //}
+      }
+
+      & > .login-button {
+        margin-right: 60px;
+        //background-color: red;
+      }
     }
   }
 }
@@ -111,34 +125,40 @@ div:focus {
   //面包屑
   .app-breadcrumb {
     margin: 20px 10px;
+
     .el-breadcrumb {
-      display:inline-block;
+      display: inline-block;
+
       .el-breadcrumb__item {
-        float:none;
+        float: none;
       }
     }
-    &> .right-menu{
+
+    & > .right-menu {
       float: right;
     }
   }
+
   //内容区
   .el-container {
     height: 100%;
     //侧边栏
     .aside {
-      background:$whiteColor;
+      background: $whiteColor;
+
       .title {
         line-height: 55px;
         text-align: center;
         font-weight: 700;
         text-decoration: none;
-        transition: color .2s cubic-bezier(.645,.045,.355,1);
+        transition: color .2s cubic-bezier(.645, .045, .355, 1);
         color: #303133;
       }
+
       .el-menu {
         border-right: none;
         background-color: $whiteColor;
-        color:$whiteColor;
+        color: $whiteColor;
       }
     }
   }
@@ -147,6 +167,7 @@ div:focus {
 //main-container全局样式
 .app-container {
   padding: $padding;
+
   .sub-navbar {
     height: 50px;
     line-height: 50px;
@@ -171,21 +192,26 @@ div:focus {
     }
   }
 }
+
 .app-wrapper {
-  height:100vh;
+  height: 100vh;
 }
+
 .content {
   padding: $padding;
   background: #f2f4f5;
   min-height: calc(100vh);
+
   .content-row {
-    margin-bottom:10px;
+    margin-bottom: 10px;
 
     .panel-group {
-      padding:20px;
+      padding: 20px;
+
       .card-panel-col {
-        margin-bottom:21px;
+        margin-bottom: 21px;
       }
+
       .card-panel {
         height: 109px;
         cursor: pointer;
@@ -214,14 +240,16 @@ div:focus {
       }
     }
   }
+
   .filter-container {
     padding: $padding 0;
   }
 }
 
 .bg-white {
-  background:$whiteColor;
+  background: $whiteColor;
 }
+
 .components-container {
   margin: 30px 50px;
   position: relative;

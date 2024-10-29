@@ -5,7 +5,7 @@
 import SidebarItem from './SidebarItem.vue'
 
 // 导入菜单数据
-import items from "@/utils/menu";
+import items from "@/utils/menuData";
 
 export default {
   name: "Sidebar",

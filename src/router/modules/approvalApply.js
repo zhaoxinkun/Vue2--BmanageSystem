@@ -4,7 +4,7 @@ const approvalApply= {
     path: "/approvalApply",
     name: "approvalApply",
     // 路由二级出口 ,父容器一定要有route-view,渲染子组件
-    component: () => import("@/views/HOME/approvalApply/index"),
+    component: () => import("@/views/home/approvalApply/index.vue"),
     children: [
         {
             // 请假审批

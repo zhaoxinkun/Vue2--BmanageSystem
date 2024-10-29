@@ -1,5 +1,16 @@
-// 左边菜单公共数据
-// 无限极递归的数据
+// 无限极递归左边菜单公共数据
+
+// 无限极递归路由的数据
+
+/**
+ * @typedef {Object} MenuItem
+ * @property {string} title - 菜单项的标题
+ * @property {string} url - 菜单项的链接
+ * @property {string} icon - 菜单项的图标类名
+ * @property {string} name - 菜单项的唯一名称
+ * @property {string} component - 组件名称或路径
+ * @property {MenuItem[]} [children] - 子菜单项，若存在则为数组
+ */
 
 export default [
     {
