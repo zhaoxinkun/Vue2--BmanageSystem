@@ -1,29 +1,27 @@
 // 暂时不用了,我们使用了递归路由的方式
-const approvalApply= {
-    // 申请类别 布局组件容器
+const approvalApply = {
     path: "/approvalApply",
     name: "approvalApply",
-    // 路由二级出口 ,父容器一定要有route-view,渲染子组件
     component: () => import("@/views/home/approvalApply/index.vue"),
+    // 子路由
     children: [
         {
-            // 请假审批
-            path: "/approvalApply/leaveApply",
+            // 这里的就不能加/,因为是要相对于父路由地址的
+            path: "leaveApply",
             name: "leaveApply",
-            // 路由渲染组件
-            component: () => import("@/views/HOME/approvalApply/leaveApply/index")
+            component: () => import("@/views/home/approvalApply/leaveApply/index.vue")
         },
         {
-            // 办公审批
+            // 这里的就不能加/,因为是要相对于父路由地址的
             path: "officeApply",
             name: "officeApply",
-            component: () => import("@/views/HOME/approvalApply/officeApply/index")
+            component: () => import("@/views/home/approvalApply/officeApply/index.vue")
         },
         {
-            // 差旅审批
+            // 这里的就不能加/,因为是要相对于父路由地址的
             path: "travelApply",
             name: "travelApply",
-            component: () => import("@/views/HOME/approvalApply/travelApply/index")
+            component: () => import("@/views/home/approvalApply/travelApply/index.vue")
         }
     ]
 }

@@ -3,6 +3,8 @@ import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
+// import approvalApply from "@/router/modules/approvalApply";
+
 // 导入路由数据
 import RouterData from "@/utils/menuData";
 // 导入我们自定义的路由方法
@@ -38,33 +40,7 @@ const routes = [
         //         name: "index",
         //         component: () => import("@/views/home/index/index.vue")
         //     },
-        //     {
-        //         path: "/approvalApply",
-        //         name: "approvalApply",
-        //         component: () => import("@/views/home/approvalApply/index.vue"),
-        //
-        //         // 子路由
-        //         children: [
-        //             {
-        //                 // 这里的就不能加/,因为是要相对于父路由地址的
-        //                 path: "leaveApply",
-        //                 name: "leaveApply",
-        //                 component: () => import("@/views/home/approvalApply/leaveApply/index.vue")
-        //             },
-        //             {
-        //                 // 这里的就不能加/,因为是要相对于父路由地址的
-        //                 path: "officeApply",
-        //                 name: "officeApply",
-        //                 component: () => import("@/views/home/approvalApply/officeApply/index.vue")
-        //             },
-        //             {
-        //                 // 这里的就不能加/,因为是要相对于父路由地址的
-        //                 path: "travelApply",
-        //                 name: "travelApply",
-        //                 component: () => import("@/views/home/approvalApply/travelApply/index.vue")
-        //             }
-        //         ]
-        //     },
+        //     approvalApply
         // ]
     },
 ]

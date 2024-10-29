@@ -42,6 +42,7 @@ import {setToken} from "@/utils/token";
 export default {
   name: "Login",
   data() {
+    // 函数校验
     // const vilidaPhone=()=>{}
 
     return {
@@ -77,12 +78,15 @@ export default {
           this.ruleForm.password = md5(this.ruleForm.password)
           // 异步请求发送
           const res = await login(this.ruleForm)
-          // 封装返回的token,调用setToken方法
-          const {token} = res.data.data
-          setToken(token)
-
-          console.log("login setToken is ", token)
-          console.log("login res is ", res)
+          // 结构结果
+          const {code, data} = res.data
+          if (code === 20000) {
+            // 封装返回的token,调用setToken方法
+            setToken(data.token)
+            await this.$router.push({path: "/home"})
+          }
+          // console.log("login setToken is ", token)
+          // console.log("login res is ", res)
         } else {
           console.log('error submit!!');
           return false;
