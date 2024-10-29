@@ -15,6 +15,10 @@ export function initRouter(RouterData, targetArray) {
         const routesObj = {
             path: item.url, // 路由的路径
             name: item.name, // 路由的名称
+            meta: {
+                //路由元信息
+                title: item.title
+            },
             component: () => import(`@/views/home/${item.component}/index.vue`) // 路由对应的组件
         }
 

@@ -1,14 +1,11 @@
 <script>
-// 头部组件
 export default {
-  name: "Header"
+  name: "Lang"
 }
 </script>
 
 <template>
-  <div>
-    Header
-  </div>
+
 </template>
 
 <style scoped>
