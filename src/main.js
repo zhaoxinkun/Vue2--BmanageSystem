@@ -17,6 +17,9 @@ import "@/style/index.scss"
 
 Vue.config.productionTip = false
 
+// 全局组件
+import "./components/global/myHello"
+
 new Vue({
     router,
     render: h => h(App),
