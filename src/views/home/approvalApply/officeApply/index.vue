@@ -63,19 +63,19 @@ import {officeCreate} from "@/api/api";
 
 export default {
   async mounted() {
-    await getEmployeeData();
-    // try {
-    //   this.EmployeeData = await getEmployeeData()
-    //   console.log("所有员工用户data发送成功")
-    // } catch (error) {
-    //   console.log("失败了", error)
-    // }
+    // 发送获取员工名单的请求
+    try {
+      this.EmployeeData = await getEmployeeData()
+      console.log("获取员工列表成功")
+    } catch (error) {
+      console.log("获取员工列表成功失败", error)
+    }
   },
   data() {
     return {
       // 静态的物品数据
       apply_goods,
-      // 员工用户数据
+      // 请求过来的员工用户数据
       EmployeeData: [],
       // 数据
       ruleForm: {
@@ -115,14 +115,15 @@ export default {
     };
   },
   methods: {
-    // 提交申请
+    // 表单数据----提交申请
     submitForm(formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
+          // 发送请求
           let response = await officeCreate(this.ruleForm);
+          // 结构数据
           let {code, data} = response.data;
           if (code === 20000) {
-
             await this.$router.push("/approvalManage/officeManage")
             console.log("提交数据成功了,别看了,提交时间为", data.created)
           }
@@ -133,7 +134,7 @@ export default {
         }
       });
     },
-    // 取消申请
+    // 取消申请---element ui 的重置
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },

@@ -1,7 +1,7 @@
+// 发送请求
 import {employee} from "@/api/api";
-import {getToken} from "@/utils/token";
 
-
+// 存储数据
 let EmployeeData = null
 
 // 我们要做的是:
@@ -9,22 +9,25 @@ let EmployeeData = null
 // 2.把拿到的数据返回出去
 
 
+// 暴露一个函数
 export const getEmployeeData = async () => {
     if (!EmployeeData) {
-        console.log(getToken())
-        EmployeeData = await employee(getToken())
+        // 发送请求,拿数据
+        EmployeeData = await employee()
             .then(response => {
-                console.log(response);
-                // let {code, data} = response.data;
-                // if (code === 20000) {
-                //     return data
-                // } else {
-                //     return alert("获取用户列表失败")
-                // }
+                // 成功了
+                let {code, data} = response.data;
+                if (code === 20000) {
+                    return data;  //返回数据
+                } else {
+                    console.log("未知错误") // 或者抛出错误
+                }
             })
-            // .catch(error => {
-            //     return alert(error)
-            // })
+            .catch(error => {
+                console.log("error", error)
+                return null // 或者抛出错误
+            })
     }
-    return EmployeeData
+    // 返回出数据
+    return EmployeeData // 返回已经创建的 Promise
 }

@@ -14,4 +14,7 @@ export const employMap = token => http.get(`/user/employ-map`, token)
 // 查询所有员工
 export const employee=token=>http.get(`/user/employee`,token)
 
+// 提交申请
+export const officeCreate = data => http.post(`apply/office/createOrUpd`, data)
+
 export const userInfo = data => http.get(`/user/info`)
