@@ -13,14 +13,14 @@ export default {
     <!--无子集-->
     <el-menu-item :index="item.url" v-if="!item.children">
       <i :class="item.icon"></i>
-      <span slot="title">{{ item.title }}</span>
+      <span slot="title" class="title">{{ item.title }}</span>
     </el-menu-item>
 
     <!--      有子集-->
     <el-submenu :index="item.url" v-else>
       <template slot="title">
         <i :class="item.icon"></i>
-        <span>{{ item.title }}</span>
+        <span class="title">{{ item.title }}</span>
       </template>
 
 

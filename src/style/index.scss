@@ -120,8 +120,10 @@ div:focus {
   }
 }
 
-//home
+
+//home页面
 .app-wrapper {
+
   //面包屑
   .app-breadcrumb {
     margin: 20px 10px;
@@ -134,6 +136,7 @@ div:focus {
       }
     }
 
+    //右侧按钮
     & > .right-menu {
       float: right;
     }
@@ -145,7 +148,7 @@ div:focus {
     //侧边栏
     .aside {
       background: $whiteColor;
-
+      //侧边栏字体
       .title {
         line-height: 55px;
         text-align: center;
@@ -155,6 +158,7 @@ div:focus {
         color: #303133;
       }
 
+      //侧边栏菜单
       .el-menu {
         border-right: none;
         background-color: $whiteColor;
@@ -208,10 +212,12 @@ div:focus {
     .panel-group {
       padding: 20px;
 
+      //小格子行
       .card-panel-col {
         margin-bottom: 21px;
       }
 
+      //小格子
       .card-panel {
         height: 109px;
         cursor: pointer;
@@ -221,11 +227,13 @@ div:focus {
         overflow: hidden;
         color: #fff;
 
+        //字体
         .card-panel-description {
           font-weight: bold;
           text-align: center;
           margin-top: 20px;
 
+          //字体
           .card-panel-text {
             line-height: 18px;
             color: #fff;
@@ -233,6 +241,7 @@ div:focus {
             margin-bottom: 12px;
           }
 
+          //数字
           .card-panel-num {
             font-size: 20px;
           }
