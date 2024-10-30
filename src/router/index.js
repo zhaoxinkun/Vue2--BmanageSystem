@@ -48,7 +48,7 @@ const routes = [
 // 做路由递归
 // 1.遍历路由对象,拿到home
 const homeRoutes = routes.filter(v => v.path === "/home")[0]
-console.log("homeRoutes is", homeRoutes)
+// console.log("homeRoutes is", homeRoutes)
 
 // 2.然后手动往里添加子集
 homeRoutes.children = []

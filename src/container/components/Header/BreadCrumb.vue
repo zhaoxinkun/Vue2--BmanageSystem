@@ -8,14 +8,14 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$route.path)  //index,因为重定向了
-    console.log("this.$route.matched",this.$route.matched) //这里其实是两个
+    // console.log(this.$route.path)  //index,因为重定向了
+    // console.log("this.$route.matched",this.$route.matched) //这里其实是两个
     this.RouteData = this.$route.matched  //这里也是,但是第一个没有meta.title
   },
   watch: {
     $route(newVal) {
       // 监听路由的变化
-      console.log("newVal matched is", this.$route.matched)
+      // console.log("newVal matched is", this.$route.matched)
       this.RouterMatchedHandle(newVal.matched)
     }
   },

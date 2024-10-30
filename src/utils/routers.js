@@ -7,7 +7,7 @@
  * */
 
 export function initRouter(RouterData, targetArray) {
-    console.log("RouterData is", RouterData)
+    // console.log("RouterData is", RouterData)
     // 遍历传入的 RouterData 数组，每个 item 是一个路由节点
     RouterData.forEach(item => {
 

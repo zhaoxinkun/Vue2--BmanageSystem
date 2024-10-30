@@ -1,6 +1,6 @@
 <script>
 // 引入图表
-import {FangGe, Charts01, ComCharts, Charts03} from "@/Charts/index";
+import {FangGe, Charts01, ComCharts, Map} from "@/Charts/index";
 
 // 引入图表数据
 import {Line} from "@/Charts/options"
@@ -8,7 +8,7 @@ import {Line} from "@/Charts/options"
 export default {
   name: "HomeIndex",
   components: {
-    FangGe, Charts01, ComCharts, Charts03
+    FangGe, Charts01, ComCharts, Map
   },
   data() {
     return {
@@ -85,7 +85,7 @@ export default {
         </el-col>
 
         <el-col :xs="24" :sm="24" :md="16" :lg="16">
-          <div class="bg-white bg-purple-light">22</div>
+          <div class="bg-white bg-purple-light"><Map></Map></div>
         </el-col>
 
       </el-row>

@@ -56,7 +56,7 @@ export default {
     window.addEventListener('resize', () => {
       this.myChart.resize()
     })
-    console.log(this.options)
+    // console.log(this.options)
   },
   computed: {
     // 样式
