@@ -3,16 +3,19 @@
 import {FangGe, Charts01, ComCharts, Map} from "@/Charts/index";
 
 // 引入图表数据
-import {Line} from "@/Charts/options"
+import {Line, YiBiao,SanDian} from "@/Charts/options"
 
 export default {
   name: "HomeIndex",
+
   components: {
     FangGe, Charts01, ComCharts, Map
   },
   data() {
     return {
-      Line
+      Line,
+      YiBiao,
+      SanDian
     }
   },
 }
@@ -38,6 +41,7 @@ export default {
             <Charts01></Charts01>
           </div>
         </el-col>
+
       </el-row>
     </div>
 
@@ -51,45 +55,37 @@ export default {
         </el-col>
 
         <el-col :xs="24" :sm="24" :md="8" :lg="8">
-          <div class="bg-white bg-purple">11</div>
+          <div class="bg-white bg-purple">
+            <ComCharts :options="YiBiao"></ComCharts>
+          </div>
         </el-col>
 
         <el-col :xs="24" :sm="24" :md="8" :lg="8">
-          <div class="bg-white bg-purple-light">22</div>
+          <div class="bg-white bg-purple-light"><ComCharts :options="SanDian"></ComCharts></div>
         </el-col>
       </el-row>
     </div>
 
     <!--    一行两列-->
     <div class="content-row">
+      <!--      列-->
       <el-row :gutter="10">
+
+        <!--        行-->
         <el-col :xs="24" :sm="24" :md="8" :lg="8">
-          <div class="bg-purple">
-            <div class="content-row">
-              <!--              列-->
-              <el-row :gutter="10">
-
-                <!--                行-->
-                <el-col :span="24">
-                  <div class="bg-white bg-purple">11</div>
-                </el-col>
-
-                <!--                行-->
-                <el-col :span="24">
-                  <div class="bg-white bg-purple">11</div>
-                </el-col>
-
-              </el-row>
-            </div>
+          <div class="bg-white bg-purple">
+            <FangGe></FangGe>
           </div>
         </el-col>
 
+        <!--        行-->
         <el-col :xs="24" :sm="24" :md="16" :lg="16">
-          <div class="bg-white bg-purple-light"><Map></Map></div>
+          <div class="bg-white bg-purple-light">
+            <Map></Map>
+          </div>
         </el-col>
 
       </el-row>
-
     </div>
   </div>
 </template>

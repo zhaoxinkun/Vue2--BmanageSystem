@@ -11,4 +11,7 @@ export const logout = token => http.post(`/user/logout`, token)
 
 export const employMap = token => http.get(`/user/employ-map`, token)
 
+// 查询所有员工
+export const employee=token=>http.get(`/user/employee`,token)
+
 export const userInfo = data => http.get(`/user/info`)

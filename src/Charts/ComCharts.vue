@@ -56,7 +56,25 @@ export default {
     window.addEventListener('resize', () => {
       this.myChart.resize()
     })
-    // console.log(this.options)
+    console.log(typeof this.options)
+    // 仪表盘的动态
+    if (this.options.series[0].type === "gauge") {
+      console.log("1111")
+      setInterval(() => {
+        this.myChart.setOption({
+          series: [
+            {
+              data: [
+                {
+                  value: +(Math.random() * 100).toFixed(2)
+                }
+              ]
+            }
+          ]
+        });
+      }, 2000);
+
+    }
   },
   computed: {
     // 样式
@@ -81,7 +99,7 @@ export default {
 
 <template>
   <!-- 002创建图表容器 -->
-  <div ref="charts01" class="charts01" :style="style" ></div>
+  <div ref="charts01" class="charts01" :style="style"></div>
 
 </template>
 
