@@ -2,9 +2,6 @@
 // list数据请求
 import {officeList} from "@/api/api";
 
-import StatusMenu from "@/utils/StatusMenu"
-import {statusFilter} from "@/filter/filter";
-
 export default {
   name: "officeManage",
   data() {
@@ -17,24 +14,30 @@ export default {
         pageSize: 10,
         name: ""
       },
-      StatusMenu
+      //总条数
+      rows: 0,
+      // 当前页码
+      pages: 0
     }
   },
   mounted() {
+    // 挂载的时候先获取数据
     this.getList();
   },
   methods: {
-    statusFilter,
     // 获取审批列表
     async getList() {
       try {
+        // 发送请求
         const res = await officeList(this.listQuery);
         let {code, data} = res.data;
 
         if (code === 20000) {
           this.tableData = data.list;
           console.log("获取办公审批列表成功");
-          console.log("草泥马");
+          // 总条数
+          this.rows = data.rows;
+          this.pages = data.pages;
 
         } else {
           console.log("获取办公审批列表失败");
@@ -44,11 +47,52 @@ export default {
       }
 
     },
+
+    // 筛选处理函数
     filterHandler(value, row, column) {
       const property = column['property'];
       return row[property] === value;
     },
 
+    // 每页多少条变化的函数
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+      this.listQuery.pageSize = val;
+      this.getList();
+    },
+
+    // 页码变化的函数
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.listQuery.pageNo = val;
+      this.getList();
+    }
+
+  },
+  computed: {
+    StatusMenu() {
+      // 数组对象的去重
+      // 创建map
+      let map = new Map();
+      // 遍历数据
+      for (let item of this.tableData) {
+        // 避免修改源数据
+        let v = {...item};
+        // 看看有没有
+        if (!map.has(v)) {
+          // 文本格式化,使用我们的过滤器,传入数据
+          v.text = this.$options.filters["statusFilter"](v.status)
+          // 放进去
+          map.set(v.status, v);
+        }
+      }
+      // 放进新的data中
+      const data = [...map.values()];
+      return data.map(item => ({
+        text: item.text,
+        value: item.status
+      }))
+    }
   },
 }
 </script>
@@ -126,7 +170,7 @@ export default {
         <el-table-column
             prop="status"
             label="审批状态"
-            :filters=StatusMenu
+            :filters="StatusMenu"
             :filter-method="filterHandler"
         >
           <template slot-scope="scope">
@@ -142,6 +186,22 @@ export default {
         </el-table-column>
       </el-table>
 
+    </div>
+
+    <div class="block">
+
+      <!--      size-change每页多少条的函数-->
+      <!--      current-change 页码变化的函数-->
+      <!--      current-page 当前页码-->
+      <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="listQuery.pageNo"
+          :page-sizes="[10, 20, 30, 40]"
+          :page-size="listQuery.pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="rows">
+      </el-pagination>
     </div>
 
 

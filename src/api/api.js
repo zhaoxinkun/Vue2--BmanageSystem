@@ -11,7 +11,7 @@ export const logout = token => http.post(`/user/logout`, token)
 export const employMap = token => http.get(`/user/employ-map`, token)
 
 // 查询所有员工列表
-export const employee=token=>http.get(`/user/employee`,token)
+export const employee = token => http.get(`/user/employee`, token)
 
 // 提交申请 --办公申请
 /**
@@ -20,6 +20,9 @@ export const employee=token=>http.get(`/user/employee`,token)
 export const officeCreate = data => http.post(`apply/office/createOrUpd`, data)
 
 // 办公审批的数据list
-export  const officeList =data=>http.get(`apply/office/list`,data)
+export const officeList = data => http.get(`apply/office/list`, data)
+
+// 差旅审批的数据list
+export const travelList = data => http.get(`apply/travel/list`, data)
 
 export const userInfo = data => http.get(`/user/info`)
