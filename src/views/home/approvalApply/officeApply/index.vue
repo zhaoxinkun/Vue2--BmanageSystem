@@ -4,12 +4,14 @@
     <!--card卡片-->
     <el-card class="box-card">
 
+      <!--      卡片头部-->
       <div slot="header" class="clearfix">
         <span>办公申请</span>
       </div>
 
-      <el-form-item label="申请用户" prop="'applicant">
+      <el-form-item label="申请用户" prop="applicant">
         <el-select v-model="ruleForm.applicant" placeholder="请选择申请人" style="width: 100%">
+          <!--          遍历员工列表数据-->
           <el-option v-for="val in EmployeeData" :key="val.id" :label="val.account" :value="val.id"></el-option>
         </el-select>
       </el-form-item>
@@ -52,11 +54,13 @@
 </template>
 
 <script>
-// 导入模拟的静态数据
-import {apply_goods} from "@/utils/selectData";
 
 // 导入所有员工二次封装的数据
 import {getEmployeeData} from "@/utils/employeeData";
+
+// 导入模拟的静态数据 --申请物品
+import {apply_goods} from "@/utils/selectData";
+
 
 // 导入提交申请的api
 import {officeCreate} from "@/api/api";
@@ -73,11 +77,10 @@ export default {
   },
   data() {
     return {
-      // 静态的物品数据
-      apply_goods,
-      // 请求过来的员工用户数据
+      // 请求过来的员工列表数据
       EmployeeData: [],
-      // 数据
+
+      // 员工的数据
       ruleForm: {
         // 用户名
         applicant: "",
@@ -89,25 +92,31 @@ export default {
         apply_goods_num: "",
         // 原因
         apply_reason: "",
-
       },
+
+      // 静态的物品数据
+      apply_goods,
+
       // 校验规则
       rules: {
+        // 用户名   --必填的标志不显示
         applicant: [
           {required: true, message: '请输入用户名称', trigger: 'blur'},
         ],
+
+        // 时间
         created: [
           {type: 'date', required: true, message: '请选择申请时间', trigger: 'blur'}
         ],
-        // apply_goods: [
-        //   {required: true, message: '请选择申请的物品', trigger: 'blur'}
-        // ],
-        type: [
-          {type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'blur'}
+        // 物品
+        apply_goods: [
+          {required: true, message: '请选择申请的物品', trigger: 'blur'}
         ],
+        // 数量
         apply_goods_num: [
           {required: true, message: '请选择申请数量', trigger: 'blur'}
         ],
+        // 原因
         apply_reason: [
           {required: true, message: '请填写申请原因', trigger: 'blur'}
         ]
@@ -115,7 +124,7 @@ export default {
     };
   },
   methods: {
-    // 表单数据----提交申请
+    // 收集表单数据----提交申请
     submitForm(formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {

@@ -5,9 +5,7 @@ export default {
 </script>
 
 <template>
-  <div>
-    travelManage
-  </div>
+  <router-view></router-view>
 </template>
 
 <style scoped>

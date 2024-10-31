@@ -35,13 +35,14 @@ axios.interceptors.response.use(res => {
             // 持续时间
             duration: 2000
         })
-    } else if (code === 20000) {
-        Message({
-            message: msg || "请求成功",
-            type: "success",
-            duration: 2000
-        })
     }
+    // else if (code === 20000) {
+    //     Message({
+    //         message: msg || "请求成功",
+    //         type: "success",
+    //         duration: 2000
+    //     })
+    // }
     // 直接返回数据
     return res
 }, error => {

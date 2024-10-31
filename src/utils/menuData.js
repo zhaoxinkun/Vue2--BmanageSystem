@@ -53,7 +53,7 @@ export default [
         ]
     },
     {
-        title: "档案管理",
+        title: "申请管理",
         url: "/approvalManage",
         icon: "el-icon-s-order",
         name: "approvalManage",

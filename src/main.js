@@ -20,6 +20,8 @@ Vue.config.productionTip = false
 // 全局组件
 import "./components/global/myHello"
 
+import "@/filter"
+
 new Vue({
     router,
     render: h => h(App),
