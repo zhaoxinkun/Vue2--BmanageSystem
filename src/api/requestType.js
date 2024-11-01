@@ -8,7 +8,7 @@ const http = {
     post: (url, params) => axios.post(url, params),
     put: (url, data) => axios.put(url, data),
     patch: (url, data) => axios.patch(url, data),
-    delete: (url, data) => axios.delete(url, data),
+    delete: (url, params) => axios.delete(url, params),
 }
 
 export default http;

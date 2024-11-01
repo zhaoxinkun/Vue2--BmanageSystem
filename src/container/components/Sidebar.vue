@@ -39,7 +39,3 @@ export default {
 
   </el-aside>
 </template>
-
-<style scoped>
-
-</style>

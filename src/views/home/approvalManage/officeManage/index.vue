@@ -1,23 +1,36 @@
 <script>
-// list数据请求
-import {officeList} from "@/api/api";
+// 引入请求
+// officeList 表格数据
+// officeSubmit 表格提交数据
+import {officeList, officeSubmit, officeDelete} from "@/api/api";
+import Dialog from "@/components/global/my-dialog/Dialog.vue";
 
 export default {
   name: "officeManage",
+  components: {
+    Dialog
+  },
   data() {
     return {
-      // 表格数据
+      // 存储请求的表格数据
       tableData: [],
-      // 查询参数
+      // 分页查询参数
       listQuery: {
+        // 查询页码
         pageNo: 1,
+        // 一页几个
         pageSize: 10,
+        // 查询条件
         name: ""
       },
       //总条数
       rows: 0,
       // 当前页码
-      pages: 0
+      pages: 0,
+      // 用于删除loading框处理
+      dialogDelVisible: false,
+      // 缓存一些数据
+      temp: {}
     }
   },
   mounted() {
@@ -25,20 +38,20 @@ export default {
     this.getList();
   },
   methods: {
-    // 获取审批列表
+    // 获取审批列表数据
     async getList() {
       try {
         // 发送请求
         const res = await officeList(this.listQuery);
+        // 解构数据
         let {code, data} = res.data;
-
         if (code === 20000) {
+          // 存储数据
           this.tableData = data.list;
           console.log("获取办公审批列表成功");
           // 总条数
           this.rows = data.rows;
           this.pages = data.pages;
-
         } else {
           console.log("获取办公审批列表失败");
         }
@@ -66,7 +79,65 @@ export default {
       console.log(`当前页: ${val}`);
       this.listQuery.pageNo = val;
       this.getList();
-    }
+    },
+
+    // 编辑
+    handleEdit(index, row) {
+      console.log(index, row);
+    },
+    // 删除
+    handleDelete(index, row) {
+      console.log(index, row);
+      // 显示提示框
+      this.dialogDelVisible = !this.dialogDelVisible;
+      // 方式深拷贝
+      this.temp = {...row}
+    },
+    // 删除确定的处理逻辑
+    async DeleteData() {
+      const res = await officeDelete(this.temp.id);
+      let {code} = res.data;
+      if (code === 20000) {
+        //通知框组件
+        this.$notify({
+          title: '删除成功',
+          message: '删除成功',
+          type: "success",
+          duration: 1500
+        });
+        this.dialogDelVisible = !this.dialogDelVisible;
+        // 重新刷新数据列表
+        await this.getList()
+      }
+    },
+    // 提交
+    async handleSubmit(index, row) {
+      // 弹出框组件 来自element ui
+      this.$confirm('是否确定提交?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        let res = await officeSubmit({id: row.id})
+        let {code, data} = res.data;
+        if (code === 20000) {
+          //通知框组件
+          this.$notify({
+            title: '提交成功',
+            message: '提交成功',
+            type: "success",
+            duration: 1500
+          });
+          // 再次请求数据,刷新变化
+          await this.getList();
+        }
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        });
+      });
+    },
 
   },
   computed: {
@@ -146,6 +217,9 @@ export default {
             prop="created"
             label="申请时间"
             column-key="created">
+          <template slot-scope="scope">
+            {{ scope.row.created | formatDate }}
+          </template>
         </el-table-column>
 
         <el-table-column
@@ -179,14 +253,47 @@ export default {
           </template>
         </el-table-column>
 
-        <el-table-column
-            prop="apply_"
-            label="操作"
-        >
+        <el-table-column label="操作" width="280px">
+          <template slot-scope="scope">
+            <el-button
+                size="mini"
+                type="success"
+                @click="handleEdit(scope.$index, scope.row)">编辑
+            </el-button>
+            <el-button
+                size="mini"
+                type="danger"
+                @click="handleDelete(scope.$index, scope.row)">删除
+            </el-button>
+            <el-button
+                size="mini"
+                type="primary"
+                @click="handleSubmit(scope.$index, scope.row)"
+                :disabled="scope.status === 0">提交
+            </el-button>
+          </template>
         </el-table-column>
+
+
       </el-table>
 
     </div>
+
+    <!--    <el-dialog-->
+    <!--        title="提示"-->
+    <!--        :visible.sync="dialogDelVisible"-->
+    <!--        width="30%">-->
+    <!--      <span>你确定要删除该数据吗</span>-->
+    <!--      <span slot="footer" class="dialog-footer">-->
+    <!--    <el-button @click="dialogDelVisible = false">取 消</el-button>-->
+    <!--    <el-button type="primary" @click="DeleteData">确 定</el-button>-->
+    <!--  </span>-->
+    <!--    </el-dialog>-->
+    <Dialog
+        DialogTitle="通知"
+        :visible.sync="dialogDelVisible"
+        @confirm="DeleteData"
+    ></Dialog>
 
     <div class="block">
 

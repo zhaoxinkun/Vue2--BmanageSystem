@@ -20,6 +20,7 @@ Vue.config.productionTip = false
 // 全局组件
 import "./components/global/myHello"
 
+// 全局的过滤器
 import "@/filter"
 
 new Vue({

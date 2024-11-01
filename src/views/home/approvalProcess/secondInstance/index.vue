@@ -1,11 +1,13 @@
 <script>
 export default {
-  name: "index"
+  name: "secondInstance"
 }
 </script>
 
 <template>
-  <router-view></router-view>
+<div>
+  secondInstance
+</div>
 </template>
 
 <style scoped>

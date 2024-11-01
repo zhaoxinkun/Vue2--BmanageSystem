@@ -85,6 +85,38 @@ export default [
         ]
     },
     {
+        title: "审理管理",
+        url: "/approvalProcess",
+        icon: "el-icon-s-order",
+        name: "approvalProcess",
+        component: "approvalProcess",
+        // 子数据
+        children: [
+            {
+                title: "一审",
+                url: "/approvalProcess/firstInstance",
+                icon: "el-icon-shopping-bag-2",
+                name: "firstInstance",
+                component: "approvalProcess/firstInstance"
+            },
+
+            {
+                title: "二审",
+                url: "/approvalProcess/secondInstance",
+                icon: "el-icon-s-promotion",
+                name: "secondInstance",
+                component: "approvalProcess/secondInstance"
+            },
+            {
+                title: "终审",
+                url: "/approvalProcess/lastInstance",
+                icon: "el-icon-chat-dot-square",
+                name: "lastInstance",
+                component: "approvalProcess/lastInstance"
+            },
+        ]
+    },
+    {
         title: "全局组件",
         url: "/globalCOM",
         icon: "el-icon-menu",

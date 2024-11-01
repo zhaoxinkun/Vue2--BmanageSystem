@@ -2,11 +2,13 @@
 // list数据请求
 import {travelList} from "@/api/api";
 import pagination from "@/components/global/my-Pagination/Pagination.vue";
+import TableStatusFilter from "@/components/global/my-TableStatusFilter/TableStatusFilter.vue";
 
 export default {
   name: "officeManage",
   components: {
-    pagination
+    pagination,
+    TableStatusFilter,
   },
   data() {
     return {
@@ -15,13 +17,14 @@ export default {
       // 查询参数
       listQuery: {
         pageNo: 1,
+        // 一页多少个
         pageSize: 10,
 
       },
       //总条数
       rows: 0,
       // 当前页码
-      pages: 0
+      pages: 0,
     }
   },
   mounted() {
@@ -58,6 +61,14 @@ export default {
       return row[property] === value;
     },
 
+    // 删除
+    handleDelete(index, row) {
+      console.log(index, row);
+      // 显示提示框
+      this.dialogDelVisible = !this.dialogDelVisible;
+      // 方式深拷贝
+      this.temp = {...row}
+    },
 
   },
   computed: {
@@ -137,6 +148,9 @@ export default {
             prop="created"
             label="申请时间"
             column-key="created">
+          <template slot-scope="scope">
+            {{ scope.row.created | formatDate }}
+          </template>
         </el-table-column>
 
         <el-table-column
@@ -163,33 +177,58 @@ export default {
         >
         </el-table-column>
 
-        <!--        使用子组件-->
-        <el-table-column
-            prop="status"
-            label="审批状态"
-            :filters="StatusMenu"
-            :filter-method="filterHandler"
+        <!--筛选组件-->
+        <TableStatusFilter
+            :tableDataProps="tableData"
         >
+        </TableStatusFilter>
+
+        <el-table-column label="操作" width="280px">
           <template slot-scope="scope">
-            <!--            使用全局过滤器-->
-            <el-tag :type="scope.row.status | statusStyle"> {{ scope.row.status | statusFilter }}</el-tag>
+            <el-button
+                size="mini"
+                type="success"
+                @click="handleEdit(scope.$index, scope.row)">编辑
+            </el-button>
+            <el-button
+                size="mini"
+                type="danger"
+                @click="handleDelete(scope.$index, scope.row)">删除
+            </el-button>
+            <el-button
+                size="mini"
+                type="primary"
+                @click="handleSubmit(scope.$index, scope.row)"
+                :disabled="scope.status === 0">提交
+            </el-button>
           </template>
         </el-table-column>
 
-        <el-table-column
-            prop="apply_"
-            label="操作"
-        >
-        </el-table-column>
+                <el-table-column
+                    prop="apply_"
+                    label="操作"
+                >
+                </el-table-column>
+
+
       </el-table>
 
     </div>
 
+    <!--    使用自己封装的分页器组件-->
     <div class="block">
+      <!--    total -rows  总条数-->
+      <!--      胜率了layout-->
+      <!--     page-size- Size 一页多少个-->
+      <!--    page-sizes- Sizes  分页大小-->
+      <!--    current-page -pageNo  当前页码-->
+
       <pagination
           :rows="rows"
-          :Sizes=[5,10,15,20,25,30]
-          :defaultSize="listQuery.pageSize"
+          :DataSize.sync="listQuery.pageSize"
+          :SizesArray="[5,10,15,20,25,30]"
+          :pageNo.sync="listQuery.pageNo"
+          @action="getList"
       ></pagination>
     </div>
 

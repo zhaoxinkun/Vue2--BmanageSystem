@@ -41,22 +41,22 @@ export default {
       ListData: [
         // startVal  开始数字   endVal 结束数字 duration 持续时间  name 名字 color 颜色
         {
-          startVal: 0, endVal: 8888, duration: 4000, name: "企业回报率", color: "#1f7aa8"
+          startVal: 0, endVal: 8888, duration: 40000, name: "企业回报率", color: "#1f7aa8"
         },
         {
-          startVal: 0, endVal: 6666, duration: 4000, name: "企业回报率", color: "#c04b8e"
+          startVal: 0, endVal: 6666, duration: 50000, name: "企业回报率", color: "#c04b8e"
         },
         {
-          startVal: 0, endVal: 7777, duration: 4000, name: "企业回报率", color: "#411728"
+          startVal: 0, endVal: 7777, duration: 60000, name: "企业回报率", color: "#411728"
         },
         {
-          startVal: 0, endVal: 8888, duration: 4000, name: "企业回报率", color: "#bd7840"
+          startVal: 0, endVal: 8888, duration: 70000, name: "企业回报率", color: "#bd7840"
         },
         {
-          startVal: 0, endVal: 9999, duration: 4000, name: "企业回报率", color: "#42e14f"
+          startVal: 0, endVal: 9999, duration: 48000, name: "企业回报率", color: "#42e14f"
         },
         {
-          startVal: 0, endVal: 8756, duration: 4000, name: "企业回报率", color: "#c0be34"
+          startVal: 0, endVal: 8756, duration: 80000, name: "企业回报率", color: "#c0be34"
         }]
     };
   },

@@ -1,10 +1,13 @@
 <script>
-// 主体组件
 export default {
-  name: "Main"
+  name: "Index"
 }
 </script>
 
 <template>
   <router-view></router-view>
 </template>
+
+<style scoped>
+
+</style>

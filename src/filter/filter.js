@@ -29,7 +29,7 @@ export function statusFilter(val) {
 }
 
 
-export function  statusStyle(val){
+export function statusStyle(val) {
     switch (val) {
         case 0:
             return "success"
@@ -57,3 +57,38 @@ export function  statusStyle(val){
             return "warning"
     }
 }
+
+export function formatDate(value) {
+    if (!value) return '';
+    const date = new Date(value);
+    return date.toLocaleDateString(); // 或者使用其他格式化方法
+}
+
+
+//申请类别
+export function categoryfilter(val){  //
+    switch(val){
+        case 1:
+            return '办公审批';
+        case 2:
+            return '差旅审批';
+        case 3:
+            return '请假审批';
+        default:
+            return val;
+    }
+};
+
+//申请类别 样式
+export function categoryStyle(val){  //
+    switch(val){
+        case 1:
+            return 'warning';
+        case 2:
+            return 'danger';
+        case 3:
+            return 'success';
+        default:
+            return val;
+    }
+};

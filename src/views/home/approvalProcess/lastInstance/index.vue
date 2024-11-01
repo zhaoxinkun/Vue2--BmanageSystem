@@ -1,11 +1,13 @@
 <script>
 export default {
-  name: "Index"
+  name: "lastInstance"
 }
 </script>
 
 <template>
-
+<div>
+  lastInstance
+</div>
 </template>
 
 <style scoped>

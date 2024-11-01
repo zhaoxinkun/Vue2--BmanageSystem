@@ -29,7 +29,7 @@ export default {
      * @type {array}
      * @default [10, 20, 30, 40, 50]
      */
-    Sizes: {
+    SizesArray: {
       type: Array,
       default: () => [10, 20, 30, 40, 50]
     },
@@ -48,42 +48,43 @@ export default {
      *
      * 一页几条
      * @type {number}
-     * @default 1
+     * @default 10
      *
      * */
-    defaultSize: {
+    DataSize: {
       type: Number,
-      default: 10
+      default: 5
     }
   },
-
-  data() {
-    return {
-      listQuery: {
-        pageSize: this.defaultSize,
-        pageNo: this.pageNo,
-      }
-    };
-  },
-
   methods: {
     // 每页多少条变化的函数
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
-      this.listQuery.defaultSize = val;
-      this.getList();
+      this.$emit("action")
     },
 
     // 页码变化的函数
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
-      this.listQuery.pageNo = val;
-      this.getList();
+      this.$emit("action")
     },
-
-    // 示例：获取数据的方法
-    getList() {
-      // 这里添加你的数据获取逻辑
+  },
+  computed: {
+    curPageNo: {
+      get() {
+        return this.pageNo
+      },
+      set(val) {
+        this.$emit("update:pageNo", val);
+      }
+    },
+  curDataSize: {
+      get() {
+        return this.DataSize
+      },
+      set(val) {
+        this.$emit("update:DataSize", val);
+      }
     }
   },
 }
@@ -97,19 +98,16 @@ export default {
     <!--    layout 布局,props-layout -->
     <!--    page-size  props-pageSize 一页共几条-->
     <!--    page-sizes 每页显示的数据条数的可选数组 props-pageSizes 数组 --->
-<!--    current-page 当前页数 props-pageNo -->
+    <!--    current-page 当前页数 props-pageNo -->
     <el-pagination
+        :total="rows"
+        :layout="layout"
+        :page-size.sync="curDataSize"
+        :page-sizes="SizesArray"
+        :current-page.sync="curPageNo"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="listQuery.pageNo"
-        :page-sizes="Sizes"
-        :page-size="listQuery.pageSize"
-        :layout="layout"
-        :total="rows">
+    >
     </el-pagination>
   </div>
 </template>
-
-<style scoped>
-/* 你的样式 */
-</style>
