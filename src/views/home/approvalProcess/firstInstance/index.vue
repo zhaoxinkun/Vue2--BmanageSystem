@@ -12,7 +12,9 @@ export default {
         pageNo: 1,
         pageSize: 10,
         name: ""
-      }
+      },
+      // 共多少条
+      rows: 0
     }
   },
   mounted() {
@@ -24,7 +26,24 @@ export default {
       let {code, data} = res.data;
       if (code === 20000) {
         this.tableData = data.list;
+        this.rows = data.rows;
       }
+    },
+    // 筛选处理函数
+    filterHandler(value, row, column) {
+      const property = column['property'];
+      return row[property] === value;
+    },
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+      this.listQuery.pageSize = val;
+      this.getFirstInstanceData();
+
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.listQuery.pageNo = val;
+      this.getFirstInstanceData();
     }
   },
   computed: {
@@ -38,7 +57,6 @@ export default {
         console.log(v)
         // 判断一下
         if (!map.has(v)) {
-
           // 文本格式化,使用我们的过滤器,传入数据
           v.text = this.$options.filters["categoryfilter"](v.app_type)
           console.log(" v.text is ", v.text)
@@ -46,6 +64,12 @@ export default {
           map.set(v.app_type, v);
         }
       }
+      // 放进新的data中
+      const data = [...map.values()];
+      return data.map(item => ({
+        text: item.text,
+        value: item.status
+      }))
     }
   }
 }
@@ -93,6 +117,7 @@ export default {
             prop="app_type"
             label="申请类别"
             :filters="ApprovalCategory"
+            :filter-method="filterHandler"
         >
           <template slot-scope="{row}">
             <el-tag :type="row.app_type | categoryStyle"> {{ row.app_type |categoryfilter }}</el-tag>
@@ -114,6 +139,17 @@ export default {
         </el-table-column>
 
       </el-table>
+      <div class="block">
+        <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPage4"
+            :page-sizes="[100, 200, 300, 400]"
+            :page-size="100"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="rows">
+        </el-pagination>
+      </div>
     </el-card>
   </div>
 </template>
