@@ -1,15 +1,18 @@
 <script>
+/**
+ *  此组件,未使用任何封装的组件
+ *
+ *
+ * */
+
+
 // 引入请求
 // officeList 表格数据
 // officeSubmit 表格提交数据
 import {officeList, officeSubmit, officeDelete} from "@/api/api";
-import Dialog from "@/components/global/my-dialog/Dialog.vue";
 
 export default {
   name: "officeManage",
-  components: {
-    Dialog
-  },
   data() {
     return {
       // 存储请求的表格数据
@@ -30,13 +33,15 @@ export default {
       // 用于删除loading框处理
       dialogDelVisible: false,
       // 缓存一些数据
-      temp: {}
+      temp: {},
     }
   },
+
   mounted() {
     // 挂载的时候先获取数据
     this.getList();
   },
+
   methods: {
     // 获取审批列表数据
     async getList() {
@@ -61,11 +66,6 @@ export default {
 
     },
 
-    // 筛选处理函数
-    filterHandler(value, row, column) {
-      const property = column['property'];
-      return row[property] === value;
-    },
 
     // 每页多少条变化的函数
     handleSizeChange(val) {
@@ -81,10 +81,17 @@ export default {
       this.getList();
     },
 
+    // 筛选处理函数
+    filterHandler(value, row, column) {
+      const property = column['property'];
+      return row[property] === value;
+    },
+
     // 编辑
     handleEdit(index, row) {
       console.log(index, row);
     },
+
     // 删除
     handleDelete(index, row) {
       console.log(index, row);
@@ -93,6 +100,7 @@ export default {
       // 方式深拷贝
       this.temp = {...row}
     },
+
     // 删除确定的处理逻辑
     async DeleteData() {
       const res = await officeDelete(this.temp.id);
@@ -110,7 +118,8 @@ export default {
         await this.getList()
       }
     },
-    // 提交
+
+    // 提交的逻辑
     async handleSubmit(index, row) {
       // 弹出框组件 来自element ui
       this.$confirm('是否确定提交?', '提示', {
@@ -119,7 +128,7 @@ export default {
         type: 'warning'
       }).then(async () => {
         let res = await officeSubmit({id: row.id})
-        let {code, data} = res.data;
+        let {code} = res.data;
         if (code === 20000) {
           //通知框组件
           this.$notify({
@@ -131,6 +140,7 @@ export default {
           // 再次请求数据,刷新变化
           await this.getList();
         }
+        await this.$router.push("/approvalProcess/firstInstance")
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -140,7 +150,9 @@ export default {
     },
 
   },
+
   computed: {
+    // 状态的插槽数据
     StatusMenu() {
       // 数组对象的去重
       // 创建map
@@ -171,6 +183,7 @@ export default {
 <template>
   <!--  卡片-->
   <el-card class="box-card">
+
     <div slot="header" class="clearfix">
       <span>办公申请</span>
     </div>
@@ -178,7 +191,7 @@ export default {
 
     <div class="filter-container">
 
-      <!--    搜索框  clearable-可清除-->
+      <!--      搜索框  clearable-可清除   input事件,只要输入就触发获取列表-->
       <el-input
           prefix-icon="el-icon-search"
           placeholder="请输入查询用户名"
@@ -217,6 +230,7 @@ export default {
             prop="created"
             label="申请时间"
             column-key="created">
+
           <template slot-scope="scope">
             {{ scope.row.created | formatDate }}
           </template>
@@ -240,37 +254,43 @@ export default {
         >
         </el-table-column>
 
-        <!--        使用子组件-->
+        <!--        filters 过滤出所有的状态并去重  filter-method 筛选的逻辑-->
         <el-table-column
             prop="status"
             label="审批状态"
             :filters="StatusMenu"
             :filter-method="filterHandler"
         >
+          <!--          作用域插槽-->
           <template slot-scope="scope">
             <!--            使用全局过滤器-->
             <el-tag :type="scope.row.status | statusStyle"> {{ scope.row.status | statusFilter }}</el-tag>
           </template>
         </el-table-column>
 
+
         <el-table-column label="操作" width="280px">
           <template slot-scope="scope">
+
             <el-button
                 size="mini"
                 type="success"
                 @click="handleEdit(scope.$index, scope.row)">编辑
             </el-button>
+
             <el-button
                 size="mini"
                 type="danger"
                 @click="handleDelete(scope.$index, scope.row)">删除
             </el-button>
+
             <el-button
                 size="mini"
                 type="primary"
                 @click="handleSubmit(scope.$index, scope.row)"
                 :disabled="scope.status === 0">提交
             </el-button>
+
           </template>
         </el-table-column>
 
@@ -279,21 +299,19 @@ export default {
 
     </div>
 
-    <!--    <el-dialog-->
-    <!--        title="提示"-->
-    <!--        :visible.sync="dialogDelVisible"-->
-    <!--        width="30%">-->
-    <!--      <span>你确定要删除该数据吗</span>-->
-    <!--      <span slot="footer" class="dialog-footer">-->
-    <!--    <el-button @click="dialogDelVisible = false">取 消</el-button>-->
-    <!--    <el-button type="primary" @click="DeleteData">确 定</el-button>-->
-    <!--  </span>-->
-    <!--    </el-dialog>-->
-    <Dialog
-        DialogTitle="通知"
+    <!--        对话框,一开始是不显示的-->
+    <el-dialog
+        title="提示"
         :visible.sync="dialogDelVisible"
-        @confirm="DeleteData"
-    ></Dialog>
+        width="30%">
+      <span>你确定要删除该数据吗</span>
+      <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogDelVisible = false">取 消</el-button>
+        <!--        执行真正的删除-->
+            <el-button type="primary" @click="DeleteData">确 定</el-button>
+          </span>
+    </el-dialog>
+
 
     <div class="block">
 

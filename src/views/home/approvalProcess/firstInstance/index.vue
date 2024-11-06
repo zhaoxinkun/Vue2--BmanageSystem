@@ -1,8 +1,10 @@
 <script>
 import {FirstInstanceData} from "@/api/api";
+import Pagination from "@/components/global/my-Pagination/Pagination.vue";
 
 export default {
   name: "firstInstance",
+  components: {Pagination},
   data() {
     return {
       // 列表数据
@@ -21,6 +23,7 @@ export default {
     this.getFirstInstanceData()
   },
   methods: {
+    // 获取列表数据
     async getFirstInstanceData() {
       let res = await FirstInstanceData(this.listQuery)
       let {code, data} = res.data;
@@ -29,22 +32,12 @@ export default {
         this.rows = data.rows;
       }
     },
+
     // 筛选处理函数
     filterHandler(value, row, column) {
       const property = column['property'];
       return row[property] === value;
     },
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
-      this.listQuery.pageSize = val;
-      this.getFirstInstanceData();
-
-    },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
-      this.listQuery.pageNo = val;
-      this.getFirstInstanceData();
-    }
   },
   computed: {
     ApprovalCategory() {
@@ -128,27 +121,29 @@ export default {
           <template slot-scope="scope">
             <el-button
                 size="mini"
-                @click="handleEdit(scope.$index, scope.row)">编辑
+                type="success"
+                @click="handleEdit(scope.$index, scope.row)">通过
             </el-button>
             <el-button
                 size="mini"
                 type="danger"
-                @click="handleDelete(scope.$index, scope.row)">删除
+                @click="handleDelete(scope.$index, scope.row)">驳回
             </el-button>
           </template>
         </el-table-column>
 
       </el-table>
+
+      <!--      分页器-->
       <div class="block">
-        <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="listQuery.pageNo"
-            :page-sizes="[10, 20, 30, 40]"
-            :page-size="listQuery.pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="rows">
-        </el-pagination>
+        <pagination
+            :rows="rows"
+            :DataSize.sync="listQuery.pageSize"
+            :SizesArray="[5,10,15,20,25,30]"
+            :pageNo.sync="listQuery.pageNo"
+            @action="getFirstInstanceData"
+        ></pagination>
+
       </div>
     </el-card>
   </div>

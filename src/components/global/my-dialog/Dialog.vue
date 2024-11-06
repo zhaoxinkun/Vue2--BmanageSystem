@@ -20,8 +20,9 @@ export default {
       this.$emit("update:visible", !this.visible);
     },
     confirm() {
+      // 发射事件
       this.$emit("confirm");
-    }
+    },
   }
 }
 </script>
@@ -33,10 +34,7 @@ export default {
         :visible.sync="visible"
         width="30%">
       <!--    插槽-->
-      <slot>
-        <span>你是傻逼吗</span>
-      </slot>
-
+      <span>你是傻逼吗</span>
       <span slot="footer" class="dialog-footer">
     <el-button @click="cancel">取 消</el-button>
     <el-button type="primary" @click="confirm">确 定</el-button>
@@ -44,7 +42,3 @@ export default {
     </el-dialog>
   </div>
 </template>
-
-<style scoped>
-
-</style>

@@ -1,14 +1,22 @@
 <script>
+
 // list数据请求
-import {travelList} from "@/api/api";
+import {officeDelete, travelDelete, travelList} from "@/api/api";
+
+// 分页器组件
 import pagination from "@/components/global/my-Pagination/Pagination.vue";
+
+// 审批状态组件
 import TableStatusFilter from "@/components/global/my-TableStatusFilter/TableStatusFilter.vue";
+
+import Dialog from "@/components/global/my-dialog//Dialog.vue"
 
 export default {
   name: "officeManage",
   components: {
     pagination,
     TableStatusFilter,
+    Dialog
   },
   data() {
     return {
@@ -25,6 +33,8 @@ export default {
       rows: 0,
       // 当前页码
       pages: 0,
+      // 用于删除loading框处理
+      dialogDelVisible: false,
     }
   },
   mounted() {
@@ -55,12 +65,6 @@ export default {
 
     },
 
-    // 筛选处理函数
-    filterHandler(value, row, column) {
-      const property = column['property'];
-      return row[property] === value;
-    },
-
     // 删除
     handleDelete(index, row) {
       console.log(index, row);
@@ -70,31 +74,24 @@ export default {
       this.temp = {...row}
     },
 
-  },
-  computed: {
-    StatusMenu() {
-      // 数组对象的去重
-      // 创建map
-      let map = new Map();
-      // 遍历数据
-      for (let item of this.tableData) {
-        // 避免修改源数据
-        let v = {...item};
-        // 看看有没有
-        if (!map.has(v)) {
-          // 文本格式化,使用我们的过滤器,传入数据
-          v.text = this.$options.filters["statusFilter"](v.status)
-          // 放进去
-          map.set(v.status, v);
-        }
+    // 删除确定的处理逻辑
+    async DeleteData() {
+      const res = await travelDelete(this.temp.id);
+      let {code} = res.data;
+      if (code === 20000) {
+        //通知框组件
+        this.$notify({
+          title: '删除成功',
+          message: '删除成功',
+          type: "success",
+          duration: 1500
+        });
+        this.dialogDelVisible = !this.dialogDelVisible;
+        // 重新刷新数据列表
+        await this.getList()
       }
-      // 放进新的data中
-      const data = [...map.values()];
-      return data.map(item => ({
-        text: item.text,
-        value: item.status
-      }))
-    }
+    },
+
   },
 }
 </script>
@@ -140,7 +137,6 @@ export default {
             prop="account"
             label="申请人"
             column-key="account"
-            :filter-method="filterHandler"
             class="custom-column">
         </el-table-column>
 
@@ -177,10 +173,12 @@ export default {
         >
         </el-table-column>
 
-        <!--筛选组件-->
+        <!--状态筛选组件-->
         <TableStatusFilter
             :tableDataProps="tableData"
         >
+
+
         </TableStatusFilter>
 
         <el-table-column label="操作" width="280px">
@@ -204,14 +202,15 @@ export default {
           </template>
         </el-table-column>
 
-                <el-table-column
-                    prop="apply_"
-                    label="操作"
-                >
-                </el-table-column>
-
 
       </el-table>
+
+      <Dialog
+          :visible.sync="dialogDelVisible"
+          @confirm="DeleteData"
+      >
+      </Dialog>
+
 
     </div>
 

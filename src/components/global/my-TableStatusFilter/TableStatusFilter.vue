@@ -2,24 +2,20 @@
 export default {
   name: "TableStatusFilter",
   props: {
+    // 这里是要你获取的表格的数据
     tableDataProps: {
       type: Array,
     },
   },
-  data() {
-    return {}
-  },
-  mounted() {
-    console.log("this.tableDataProps", this.tableDataProps)
-  },
   methods: {
-    // 筛选处理函数
+    // 筛选处理函数   固定的
     filterHandler(value, row, column) {
       const property = column['property'];
       return row[property] === value;
     },
   },
   computed: {
+    // 状态的过滤和去重
     StatusMenuFilter() {
       // 数组对象的去重
       // 创建map
