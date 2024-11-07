@@ -43,6 +43,7 @@
       </el-form-item>
 
 
+      <!--      表单按钮-->
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm');open1" plain>立即申请</el-button>
         <el-button @click="resetForm('ruleForm')">取消申请</el-button>
@@ -55,15 +56,17 @@
 
 <script>
 
-// 导入所有员工二次封装的数据
+// 导入所有员工二次封装的数据 因为还要复用
 import {getEmployeeData} from "@/utils/employeeData";
 
 // 导入模拟的静态数据 --申请物品
 import {apply_goods} from "@/utils/selectData";
 
-
 // 导入提交申请的api
 import {officeCreate} from "@/api/api";
+
+// 导入弹框提示组件函数
+import {notifyError} from "@/utils/notify"
 
 export default {
   async mounted() {
@@ -75,6 +78,7 @@ export default {
       console.log("获取员工列表成功失败", error)
     }
   },
+
   data() {
     return {
       // 请求过来的员工列表数据
@@ -123,6 +127,7 @@ export default {
       }
     };
   },
+
   methods: {
     // 收集表单数据----提交申请
     submitForm(formName) {
@@ -133,27 +138,30 @@ export default {
           // 结构数据
           let {code, data} = response.data;
           if (code === 20000) {
+            // 跳转路由
             await this.$router.push("/approvalManage/officeManage")
-            console.log("提交数据成功了,别看了,提交时间为", data.created)
+            // 提示
+            this.$notify({
+              title: '申请成功',
+              message: '你已申请成功等待审批',
+              type: 'success'
+            });
           }
 
         } else {
-          console.log('error submit!!');
+          this.$notify({
+            title: '申请失败',
+            message: '申请失败,请思考原因',
+            type: 'error'
+          });
           return false;
         }
       });
     },
+
     // 取消申请---element ui 的重置
     resetForm(formName) {
       this.$refs[formName].resetFields();
-    },
-    // 消息弹窗
-    open1() {
-      this.$notify({
-        title: '成功',
-        message: '这是一条成功的提示消息',
-        type: 'success'
-      });
     },
   }
 

@@ -85,7 +85,7 @@ export default [
         ]
     },
     {
-        title: "审理管理",
+        title: "审批管理",
         url: "/approvalProcess",
         icon: "el-icon-s-order",
         name: "approvalProcess",
@@ -115,6 +115,13 @@ export default [
                 component: "approvalProcess/lastInstance"
             },
         ]
+    },
+    {
+        title: "档案管理",
+        url: "/fileManage",
+        icon: "el-icon-upload",
+        name: "fileManage",
+        component: "fileManage",
     },
     {
         title: "全局组件",

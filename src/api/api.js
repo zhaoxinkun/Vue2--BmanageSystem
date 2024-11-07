@@ -51,8 +51,24 @@ export const travelList = data => http.get(`apply/travel/list`, data)
 
 export const userInfo = data => http.get(`/user/info`)
 
-// 申请管理----办公管理-------------------------
-
 
 // 审批管理
+
+// 一审数据
 export const FirstInstanceData = data => http.get(`approve/one/list`, data)
+
+// 一审通过  需要数据的
+export const FirstPass = data => http.post(`approve/one/pass`, data)
+
+// 一审拒绝
+export const FirstReject = data => http.post(`approve/one/reject`, data)
+
+
+// 档案管理
+export const doc = data => http.get(`doc/list/`, data)
+
+// 生成凭证
+export const CreateDoc = data => http.post(`doc/createFile`, data)
+
+// 下载凭证
+export const DownloadDoc = data => http.get(`doc/download`, data)

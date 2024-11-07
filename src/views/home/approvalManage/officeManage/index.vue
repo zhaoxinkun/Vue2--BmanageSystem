@@ -1,10 +1,8 @@
 <script>
 /**
- *  此组件,未使用任何封装的组件
- *
+ *  此组件,未使用任何封装的组件,纯第一次写
  *
  * */
-
 
 // 引入请求
 // officeList 表格数据
@@ -13,6 +11,7 @@ import {officeList, officeSubmit, officeDelete} from "@/api/api";
 
 export default {
   name: "officeManage",
+
   data() {
     return {
       // 存储请求的表格数据
@@ -139,8 +138,9 @@ export default {
           });
           // 再次请求数据,刷新变化
           await this.getList();
+          await this.$router.push("/approvalProcess/firstInstance")
         }
-        await this.$router.push("/approvalProcess/firstInstance")
+
       }).catch(() => {
         this.$message({
           type: 'info',

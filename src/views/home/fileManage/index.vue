@@ -1,11 +1,11 @@
 <script>
-import {FirstInstanceData, FirstPass, FirstReject} from "@/api/api";
+import {doc, CreateDoc, DownloadDoc} from "@/api/api";
 import Pagination from "@/components/global/my-Pagination/Pagination.vue";
-import Dialog2 from "@/components/global/my-dialog2/Dialog2.vue";
+import {getToken} from "@/utils/token";
 
 export default {
-  name: "firstInstance",
-  components: {Dialog2, Pagination},
+  name: "fileManage",
+  components: {Pagination},
   data() {
     return {
       // 列表数据
@@ -20,16 +20,16 @@ export default {
       rows: 0,
       dialogVisible: false,
       // 驳回还是通过
-      passOrNo: "通过"
+      passOrNo: "通过",
     }
   },
   mounted() {
-    this.getFirstInstanceData()
+    this.getDoc()
   },
   methods: {
     // 获取列表数据
-    async getFirstInstanceData() {
-      let res = await FirstInstanceData(this.listQuery)
+    async getDoc() {
+      let res = await doc(this.listQuery)
       let {code, data} = res.data;
       if (code === 20000) {
         this.tableData = data.list;
@@ -43,28 +43,60 @@ export default {
       return row[property] === value;
     },
 
-    // 点击通过或驳回
-    handleSubmit(row, type) {
-      this.temp = {...row}
-      this.passOrNo = type;
-      this.dialogVisible = true;
+    // 生成凭证
+    async handleCreate(id) {
+      let res = await CreateDoc({id})
+      let {code} = res.data;
+      if (code === 20000) {
+        this.$notify({
+          title: '生成凭证',
+          message: '生成凭证成功',
+          type: 'success',
+          duration: 1000
+        });
+        await this.getDoc(); //查询数据
+      }
+
     },
-    //提交通过或驳回
-    async confirm() {
-      //传的参数 app_id,app_type,id 传给服务端
-      let {app_id, app_type, id} = this.temp;
-      this.passOrNo === '通过' ?
-          await FirstPass({app_id, app_type, id})
-          :
-          await FirstReject({app_id, app_type, id});
-      this.$notify({
-        title: '一审',
-        message: '操作成功',
-        type: 'success',
-        duration: 1000
-      });
-      this.dialogVisible = false;
-      await this.getFirstInstanceData(); //查询数据
+    // 下载凭证
+    async handleDownloadDoc(id) {
+      let res = await DownloadDoc({id})
+      let {code, data} = res.data;
+      if (code === 20000) {
+        this.$notify({
+          title: '下载凭证',
+          message: '下载凭证成功',
+          type: 'success',
+          duration: 1000
+        });
+        console.log(data.file_path)
+        await this.getDoc(); //查询数据
+        this.downloadFile(`http://124.223.161.17:5058/static/${data.file_path}`, data.file_path);
+      }
+
+    },
+    // 下载的流的请求
+    downloadFile(url, fileName) {  //第二次请求 获取到文件流
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = "blob"; //blob字节流
+      xhr.setRequestHeader('token', getToken()); //传入token
+      xhr.send();
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          console.log(xhr.response)
+          this.createA(xhr.response, fileName);
+        }
+      }
+    },
+    //动态创建a标签  <!-- <a href="文件的链接地址" download="下载的文件名称"></a> -->
+    createA(data, fileName) {
+      let _blob = new Blob([data]);
+      //window对象下有URL对象作用：专门用来将blob或file读取成url;
+      let a = document.createElement('a'); //创建a标签
+      a.href = window.URL.createObjectURL(_blob);
+      a.download = fileName;  //下载的文件名称
+      a.click(); //触发a标签
     }
   },
   computed: {
@@ -144,30 +176,25 @@ export default {
           </template>
         </el-table-column>
 
-        <el-table-column label="操作">
+        <el-table-column label="凭证处理">
           <template slot-scope="scope">
             <el-button
                 size="mini"
                 type="success"
-                @click="handleSubmit( scope.row,'通过')">通过
+                :disabled="scope.row.file_path != null"
+                @click="handleCreate(scope.row.id)">生成凭证
             </el-button>
             <el-button
                 size="mini"
                 type="danger"
-                @click="handleSubmit( scope.row,'驳回')">驳回
+                :disabled="scope.row.file_path === null"
+                @click="handleDownloadDoc( scope.row.id)">下载凭证
             </el-button>
           </template>
         </el-table-column>
 
       </el-table>
 
-      <Dialog2
-          :dialog-btn="passOrNo"
-          :dialog-title="passOrNo"
-          :visible.sync="dialogVisible"
-          @confirm="confirm"
-      >
-      </Dialog2>
 
       <!--      分页器-->
       <div class="block">
@@ -176,7 +203,7 @@ export default {
             :DataSize.sync="listQuery.pageSize"
             :SizesArray="[5,10,15,20,25,30]"
             :pageNo.sync="listQuery.pageNo"
-            @action="getFirstInstanceData"
+            @action="getDoc()"
         ></pagination>
 
       </div>

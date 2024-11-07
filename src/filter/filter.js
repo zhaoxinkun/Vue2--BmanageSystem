@@ -66,8 +66,8 @@ export function formatDate(value) {
 
 
 //申请类别
-export function categoryfilter(val){  //
-    switch(val){
+export function categoryfilter(val) {  //
+    switch (val) {
         case 1:
             return '办公审批';
         case 2:
@@ -80,8 +80,8 @@ export function categoryfilter(val){  //
 };
 
 //申请类别 样式
-export function categoryStyle(val){  //
-    switch(val){
+export function categoryStyle(val) {  //
+    switch (val) {
         case 1:
             return 'warning';
         case 2:
