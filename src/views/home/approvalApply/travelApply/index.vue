@@ -1,6 +1,6 @@
 <script>
 import {getEmployeeData} from "@/utils/employeeData"
-import {travelUpdate} from "@/api/api"
+import {city, travelUpdate} from "@/api/api"
 
 export default {
   name: "travelApply",
@@ -34,6 +34,7 @@ export default {
           {required: true, message: '请输入申请原因', trigger: 'change'}
         ]
       },
+      options: [],
     }
   },
   async mounted() {
@@ -47,21 +48,24 @@ export default {
       console.log("获取数据失败")
     }
 
+    await this.getCity()
   },
   methods: {
     // 提交
     submitForm(formName) { //创建数据
       let formData = new FormData();
       for(let k in this.ruleForm){
+        if(k==='destination'){
+          this.ruleForm['destination'] =this.ruleForm['destination'] .join(',');  //类型转换
+        };
         formData.append(k,this.ruleForm[k])
-        console.log(formData)
       };
       this.$refs[formName].validate(async valid => {
         if (valid) {
           let res = await travelUpdate(formData);
           let {code} = res.data;
           if(code === 20000){
-            await this.$router.push('/approvalManage/officeManage');
+            await this.$router.push('/approvalManage/travelManage');
           }
         }else {
           return false;
@@ -95,6 +99,7 @@ export default {
         duration: 2000
       });
     },
+
     //上传文件之前的钩子，参数为上传的文件  限制上传的格式或大小
     beforeUpload(file) {
       console.log(file);
@@ -110,6 +115,33 @@ export default {
       return isJPG && isJPG;
     },
 
+    // 获取省市区数据
+    async getCity() {
+      let res = await city();
+      let {code, data} = res.data;
+      if (code === 20000) {
+        console.log(data)
+        this.options = data
+
+        // 构建树形结构
+        function buildTree(data, parentId) {
+          return data
+              .filter(area => area.ParentId === parentId) // 筛选出父级为 parentId 的地区
+              .map(area => {
+                const children = buildTree(data, area.AreaID); // 查找该地区的子地区
+                return {
+                  value: area.AreaName2,
+                  label: area.AreaName,
+                  children: children.length > 0 ? children : undefined // 如果有子地区，则继续构建子树
+                };
+              });
+        }
+
+        this.options = buildTree(this.options, 1)
+
+      }
+
+    },
   }
 }
 </script>
@@ -175,7 +207,9 @@ export default {
       </el-form-item>
 
       <el-form-item label="出差城市" prop="destination">
-        <el-input v-model="ruleForm.destination"></el-input>
+        <el-cascader
+            v-model="ruleForm.destination"
+            :options="options"></el-cascader>
       </el-form-item>
 
       <el-form-item>

@@ -51,6 +51,9 @@ export const travelUpdate = data => http.upload(`/apply/travel/createOrUpd`,data
 // 差旅审批的数据list
 export const travelList = data => http.get(`apply/travel/list`, data)
 
+// 省市级数据
+export const city = data => http.get(`/user/area`, data)
+
 export const userInfo = data => http.get(`/user/info`)
 
 

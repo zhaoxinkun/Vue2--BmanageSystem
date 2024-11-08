@@ -130,4 +130,35 @@ export default [
         name: "globalCOM",
         component: "globalCOM",
     },
+    {
+        title: "权限管理",
+        url: "/powerManage",
+        icon: "el-icon-menu",
+        name: "powerManage",
+        component: "powerManage",
+        children:[
+            {
+                title: "创建员工审批员",
+                url: "/powerManage/createUser",
+                icon: "el-icon-circle-plus-outline",
+                name: "createUser",
+                component: "powerManage/createUser",
+            },
+            {
+                title: "员工审批员列表",
+                url: "/powerManage/userLists",
+                icon: "el-icon-user",
+                name: "userLists",
+                component: "powerManage/userLists",
+            },
+            {
+                title: "审批员权限",
+                url: "/powerManage/modifyPower",
+                icon: "el-icon-cpu",
+                name: "modifyPower",
+                component: "powerManage/modifyPower",
+            }
+        ]
+    },
+
 ]

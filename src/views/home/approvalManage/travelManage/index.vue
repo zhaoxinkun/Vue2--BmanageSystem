@@ -35,6 +35,7 @@ export default {
       pages: 0,
       // 用于删除loading框处理
       dialogDelVisible: false,
+      url: process.env.VUE_APP_procedural,
     }
   },
   mounted() {
@@ -168,9 +169,12 @@ export default {
         </el-table-column>
 
         <el-table-column
-            prop="bill_name"
+            prop="bill_path"
             label="发票文件"
         >
+          <template slot-scope="{row}">
+            <img width="50" height="50"  :src="url+row.bill_path" alt="未显示">
+          </template>
         </el-table-column>
 
         <!--状态筛选组件-->
