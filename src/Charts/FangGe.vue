@@ -60,7 +60,6 @@ export default {
         }]
     };
   },
-  methods: {},
   components: {
     // 使用数字滚动插件
     CountTo

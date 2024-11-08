@@ -51,13 +51,13 @@ export default {
 
         if (code === 20000) {
           this.tableData = data.list;
-          console.log("获取办公审批列表成功");
+          console.log("获取差旅审批列表成功");
           // 总条数
           this.rows = data.rows;
           this.pages = data.pages;
 
         } else {
-          console.log("获取办公审批列表失败");
+          console.log("获取差旅审批列表失败");
         }
       } catch (error) {
         console.error("请求发生错误：", error);

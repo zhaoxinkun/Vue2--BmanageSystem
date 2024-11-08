@@ -10,6 +10,7 @@ export default {
       myChart: null
     }
   },
+
   mounted() {
     // 使用init方法.创建图表
     this.init()
@@ -18,6 +19,7 @@ export default {
       this.myChart.resize()
     })
   },
+
   methods: {
     // 003创建渲染方法
     init() {
@@ -41,6 +43,7 @@ export default {
       })
     }
   }
+
 }
 </script>
 
@@ -54,7 +57,6 @@ export default {
 .charts01 {
   width: 100%;
   height: 300px;
-  //background-color: red;
 }
 
 </style>

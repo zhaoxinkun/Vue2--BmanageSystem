@@ -71,7 +71,7 @@ export default {
         });
         console.log(data.file_path)
         await this.getDoc(); //查询数据
-        this.downloadFile(`http://124.223.161.17:5058/static/${data.file_path}`, data.file_path);
+        this.downloadFile(`${process.env.VUE_APP_procedural}static/${data.file_path}`, data.file_path);
       }
 
     },

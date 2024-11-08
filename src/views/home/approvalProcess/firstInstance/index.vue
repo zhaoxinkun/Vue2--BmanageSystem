@@ -79,7 +79,7 @@ export default {
         if (!map.has(v)) {
           // 文本格式化,使用我们的过滤器,传入数据
           v.text = this.$options.filters["categoryfilter"](v.app_type)
-          console.log(" v.text is ", v.text)
+          // console.log(" v.text is ", v.text)
           // 放进去
           map.set(v.app_type, v);
         }

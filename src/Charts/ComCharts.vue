@@ -43,12 +43,14 @@ export default {
     }
 
   },
+
   data() {
     return {
       // 定义变量,用在存储图标实例.不然无法实现响应式
       myChart: null
     }
   },
+
   mounted() {
     // 使用init方法.创建图表
     this.init()
@@ -56,10 +58,9 @@ export default {
     window.addEventListener('resize', () => {
       this.myChart.resize()
     })
-    console.log(typeof this.options)
+    // console.log(typeof this.options)
     // 仪表盘的动态
-    if (this.options.series[0].type === "gauge") {
-      console.log("1111")
+    if (this.options.series[0]?.type === "gauge") {
       setInterval(() => {
         this.myChart.setOption({
           series: [
@@ -76,6 +77,7 @@ export default {
 
     }
   },
+
   computed: {
     // 样式
     style() {
@@ -85,6 +87,7 @@ export default {
       }
     }
   },
+
   methods: {
     // 003创建渲染方法
     init() {

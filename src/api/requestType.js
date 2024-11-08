@@ -13,6 +13,9 @@ const http = {
     patch: (url, data) => axios.patch(url, data),
     // 删除请求
     delete: (url, params) => axios.delete(url, params),
+    upload:(url,file)=>axios.post(url,file,{
+        headers:{'Content-Type':'multipart/form-data'}
+    })
 }
 
 export default http;

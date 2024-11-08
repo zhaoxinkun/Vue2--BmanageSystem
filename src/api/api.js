@@ -45,6 +45,8 @@ export const employee = token => http.get(`/user/employee`, token)
  * */
 export const officeCreate = data => http.post(`apply/office/createOrUpd`, data)
 
+//申请类别-差旅上传
+export const travelUpdate = data => http.upload(`/apply/travel/createOrUpd`,data);
 
 // 差旅审批的数据list
 export const travelList = data => http.get(`apply/travel/list`, data)
